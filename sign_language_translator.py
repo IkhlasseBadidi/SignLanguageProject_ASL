@@ -7,13 +7,6 @@ import pygame
 import time
 import os
 
-# Print debugging information
-print("Current working directory:", os.getcwd())
-print("TensorFlow version:", tf.__version__)
-print("NumPy version:", np.__version__)
-print("OpenCV version:", cv2.__version__)
-print("Streamlit version:", st.__version__)
-
 try:
     model = tf.keras.models.load_model('sign_language_mobilenet.h5', compile=False)
     print("Model loaded successfully")
@@ -45,8 +38,10 @@ def classify_image(image):
 st.title('Sign Language Alphabet Translator')
 
 # Initialize session state
-if 'word' not in st.session_state:
-    st.session_state.word = []
+if 'prefix' not in st.session_state:
+    st.session_state.prefix = "My name is "
+if 'name' not in st.session_state:
+    st.session_state.name = ""
 
 # Function to capture image
 def capture_image():
@@ -55,13 +50,11 @@ def capture_image():
         if not cap.isOpened():
             st.error("Cannot open camera")
             return None
-        
         # Countdown
         for i in range(3, 0, -1):
             st.write(f"Get ready... {i}")
             time.sleep(1)
         st.write("Show your sign now!")
-        
         # Capture frame
         ret, frame = cap.read()
         cap.release()
@@ -83,42 +76,28 @@ if st.button('Capture Sign'):
         st.image(image_rgb, caption="Captured Sign")
         predicted_letter = classify_image(image)
         if predicted_letter:
-            st.session_state.word.append(predicted_letter)
             st.write(f"Predicted letter: {predicted_letter}")
-            st.write(f"Current word: {''.join(st.session_state.word)}")
+            st.session_state.name += predicted_letter
+            st.write(f"Current progress: {st.session_state.prefix}{st.session_state.name}")
         else:
             st.write("Unable to predict letter. Please try again.")
 
-# Button to add space
-if st.button('Add Space'):
-    st.session_state.word.append(' ')
-    st.write(f"Current word: {''.join(st.session_state.word)}")
+# Button to clear progress
+if st.button('Clear Progress'):
+    st.session_state.name = ""
+    st.write("Progress cleared")
 
-# Button to backspace
-if st.button('Backspace'):
-    if st.session_state.word:
-        st.session_state.word.pop()
-        st.write(f"Current word: {''.join(st.session_state.word)}")
+# Button to read the full sentence
+if st.button('Read Full Sentence'):
+    full_sentence = f"{st.session_state.prefix}{st.session_state.name}"
+    tts = gTTS(text=full_sentence, lang='en')
+    tts.save("output.mp3")
+    pygame.init()
+    pygame.mixer.music.load("output.mp3")
+    pygame.mixer.music.play()
+    st.write(f"Reading: {full_sentence}")
 
-# Button to clear the word
-if st.button('Clear Word'):
-    st.session_state.word = []
-    st.write("Word cleared")
-
-# Button to speak the word
-if st.button('Speak Word'):
-    word = ''.join(st.session_state.word)
-    if word:
-        tts = gTTS(text=word, lang='en')
-        tts.save("output.mp3")
-        pygame.init()
-        pygame.mixer.music.load("output.mp3")
-        pygame.mixer.music.play()
-        st.write(f"Speaking: {word}")
-    else:
-        st.write("No word to speak")
-
-# Display current word
-st.write(f"Current word: {''.join(st.session_state.word)}")
+# Display current progress
+st.write(f"Current progress: {st.session_state.prefix}{st.session_state.name}")
 
 print("Streamlit app definition completed")
