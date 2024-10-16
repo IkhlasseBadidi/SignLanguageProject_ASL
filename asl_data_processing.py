@@ -30,7 +30,7 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 model.summary()
 
 # Path to training directory
-train_data_dir = '/Users/ikhlasse/Desktop/SignLanguageProject/archive/asl_alphabet_train/asl_alphabet_train'
+train_data_dir = 'asl_alphabet_train/asl_alphabet_train'
 
 # Data augmentation for training
 train_datagen = ImageDataGenerator(
@@ -114,7 +114,7 @@ def load_test_data(test_dir, target_size=(224, 224)):
     return np.array(images), np.array(labels), class_names
 
 # Load test data
-test_dir = '/Users/ikhlasse/Desktop/SignLanguageProject/archive/asl_alphabet_test/asl_alphabet_test'
+test_dir = 'asl_alphabet_test/asl_alphabet_test'
 X_test, y_test, class_names = load_test_data(test_dir)
 
 print(f"Loaded {len(X_test)} test images")
