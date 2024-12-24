@@ -42,7 +42,7 @@ This project addresses the communication gap between deaf and hearing individual
 
 ## Demo Functionality
 Demo Link: https://drive.google.com/file/d/1Xya1TVmeKApgv8pplW8f8GdgrSbauPXS/view?usp=share_link 
-\\
+\
 The application allows users to:
 1. Capture ASL alphabet signs through webcam
 2. Build sentences letter by letter
