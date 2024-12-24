@@ -64,8 +64,5 @@ The application allows users to:
 - `asl_alphabet_test/`: Test dataset
 - `asl_alphabet_train/`: Training dataset
 
-## Contributing
-We welcome contributions to improve the project. Please feel free to submit issues and pull requests.
-
 ## Acknowledgments
 Special thanks to the Kaggle dataset creators and the Introduction to Data Science course instructors at the University of Helsinki.
