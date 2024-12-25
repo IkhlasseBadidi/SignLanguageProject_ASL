@@ -1,5 +1,6 @@
 # ASL Alphabet to Voice Translation
 
+
 A real-time American Sign Language (ASL) alphabet detection and voice translation system, developed as part of the Introduction to Data Science Course at the University of Helsinki.
 
 ## Team Members
